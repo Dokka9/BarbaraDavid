@@ -522,6 +522,21 @@
       gap: 10px;
       margin-bottom: 6px;
     }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 700px) {
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
 
     @media (max-width: 900px) {
       .hero-grid,
@@ -611,8 +626,8 @@
       <div class="container">
         <div class="section-head">
           <div class="section-tag">Metodologia</div>
-          <h2>Os 4 pilares da jornada do cliente</h2>
-          <p class="section-desc">Estrutura aplicada em cada conta para gerar previsibilidade e confiança.</p>
+          <h2 id="journeyTitle">Os 4 pilares da jornada do cliente</h2>
+          <p class="section-desc" id="journeyDesc">Estrutura aplicada em cada conta para gerar previsibilidade e confiança.</p>
         </div>
         <div class="pillars-grid" id="pillarsGrid"></div>
       </div>
@@ -622,8 +637,8 @@
       <div class="container">
         <div class="section-head">
           <div class="section-tag">Trabalhos realizados</div>
-          <h2>Cases e resultados práticos</h2>
-          <p class="section-desc">Filtre por frente de atuação para conhecer os desafios enfrentados e o impacto gerado.</p>
+          <h2 id="casesTitle">Cases e resultados práticos</h2>
+          <p class="section-desc" id="casesDesc">Filtre por frente de atuação para conhecer os desafios enfrentados e o impacto gerado.</p>
         </div>
 
         <div class="filters" id="caseFilters">
@@ -641,8 +656,8 @@
       <div class="container">
         <div class="section-head">
           <div class="section-tag">Depoimentos</div>
-          <h2>O que clientes e lideranças dizem</h2>
-          <p class="section-desc">Relatos sobre acompanhamento próximo, clareza na execução e resultados consistentes.</p>
+          <h2 id="testTitle">O que clientes e lideranças dizem</h2>
+          <p class="section-desc" id="testDesc">Relatos sobre acompanhamento próximo, clareza na execução e resultados consistentes.</p>
         </div>
         <div class="testimonials-grid" id="testimonialsGrid"></div>
       </div>
@@ -653,8 +668,8 @@
         <div class="contact-box">
           <div>
             <div class="section-tag">Contato</div>
-            <h2>Vamos conversar sobre o seu cenário?</h2>
-            <p class="section-desc" style="margin-bottom: 18px;">
+            <h2 id="contactTitle">Vamos conversar sobre o seu cenário?</h2>
+            <p class="section-desc" id="contactDesc" style="margin-bottom: 18px;">
               Se você busca estruturar Customer Success, melhorar o onboarding ou acompanhar melhor suas contas, envie uma mensagem.
             </p>
             <p style="font-size: 0.92rem; color: var(--muted); margin-bottom: 8px;">
@@ -727,19 +742,27 @@
       <div id="adminPanel" style="display: none;">
         <div class="admin-tabs">
           <button class="btn btn-primary btn-sm admin-tab" data-tab="tabProfile" type="button">Perfil & Métricas</button>
+          <button class="btn btn-outline btn-sm admin-tab" data-tab="tabPillars" type="button">4 Pilares & Seções</button>
           <button class="btn btn-outline btn-sm admin-tab" data-tab="tabCases" type="button">Cases</button>
           <button class="btn btn-outline btn-sm admin-tab" data-tab="tabTestimonials" type="button">Relatos</button>
+          <button class="btn btn-outline btn-sm admin-tab" data-tab="tabTheme" type="button">Cores & Contato</button>
           <button class="btn btn-outline btn-sm admin-tab" data-tab="tabSecurity" type="button">Senha & Backup</button>
         </div>
 
         <div class="admin-section active" id="tabProfile">
-          <div class="field">
-            <label for="editName">Nome</label>
-            <input id="editName" type="text" />
+          <div class="grid-2">
+            <div class="field">
+              <label for="editName">Nome</label>
+              <input id="editName" type="text" />
+            </div>
+            <div class="field">
+              <label for="editRole">Cargo / Chamada curta</label>
+              <input id="editRole" type="text" />
+            </div>
           </div>
           <div class="field">
-            <label for="editRole">Cargo / Chamada curta</label>
-            <input id="editRole" type="text" />
+            <label for="editPill">Etiqueta superior (Pill)</label>
+            <input id="editPill" type="text" />
           </div>
           <div class="field">
             <label for="editHeroTitle">Título principal</label>
@@ -750,10 +773,24 @@
             <textarea id="editHeroSub"></textarea>
           </div>
           <div class="field">
+            <label for="editProfileBio">Resumo do cartão lateral</label>
+            <textarea id="editProfileBio"></textarea>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <label for="editAboutTitle">Título da seção Sobre</label>
+              <input id="editAboutTitle" type="text" />
+            </div>
+            <div class="field">
+              <label for="editAboutTag">Tag da seção Sobre</label>
+              <input id="editAboutTag" type="text" />
+            </div>
+          </div>
+          <div class="field">
             <label for="editAbout">Texto Sobre</label>
             <textarea id="editAbout"></textarea>
           </div>
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+          <div class="grid-3">
             <div class="field">
               <label for="editS1V">Métrica 1 (Valor)</label>
               <input id="editS1V" type="text" />
@@ -779,18 +816,36 @@
               <input id="editS3L" type="text" />
             </div>
           </div>
-          <div class="field">
-            <label for="editEmail">E-mail de contato</label>
-            <input id="editEmail" type="text" />
-          </div>
-          <div class="field">
-            <label for="editChannel">LinkedIn / Canal</label>
-            <input id="editChannel" type="text" />
-          </div>
           <button class="btn btn-primary btn-sm" id="saveProfileBtn" type="button">Salvar alterações do perfil</button>
         </div>
 
+        <div class="admin-section" id="tabPillars">
+          <div class="grid-2">
+            <div class="field">
+              <label for="editJourneyTitle">Título da seção Metodologia</label>
+              <input id="editJourneyTitle" type="text" />
+            </div>
+            <div class="field">
+              <label for="editJourneyDesc">Descrição da Metodologia</label>
+              <input id="editJourneyDesc" type="text" />
+            </div>
+          </div>
+          <div id="adminPillarsList"></div>
+          <button class="btn btn-primary btn-sm" id="savePillarsBtn" type="button">Salvar pilares e metodologia</button>
+        </div>
+
         <div class="admin-section" id="tabCases">
+          <div class="grid-2">
+            <div class="field">
+              <label for="editCasesTitle">Título da seção Cases</label>
+              <input id="editCasesTitle" type="text" />
+            </div>
+            <div class="field">
+              <label for="editCasesDesc">Descrição da seção Cases</label>
+              <input id="editCasesDesc" type="text" />
+            </div>
+          </div>
+          <button class="btn btn-outline btn-sm" id="saveCasesSectionBtn" type="button" style="margin-bottom: 14px;">Salvar cabeçalho de Cases</button>
           <div id="adminCasesList"></div>
           <h4 style="margin: 14px 0 10px;">Adicionar novo case</h4>
           <div class="field">
@@ -817,6 +872,17 @@
         </div>
 
         <div class="admin-section" id="tabTestimonials">
+          <div class="grid-2">
+            <div class="field">
+              <label for="editTestTitle">Título da seção Relatos</label>
+              <input id="editTestTitle" type="text" />
+            </div>
+            <div class="field">
+              <label for="editTestDesc">Descrição da seção Relatos</label>
+              <input id="editTestDesc" type="text" />
+            </div>
+          </div>
+          <button class="btn btn-outline btn-sm" id="saveTestSectionBtn" type="button" style="margin-bottom: 14px;">Salvar cabeçalho de Relatos</button>
           <div id="adminTestimonialsList"></div>
           <h4 style="margin: 14px 0 10px;">Adicionar novo relato</h4>
           <div class="field">
@@ -834,18 +900,56 @@
           <button class="btn btn-primary btn-sm" id="addTestBtn" type="button">Adicionar relato</button>
         </div>
 
+        <div class="admin-section" id="tabTheme">
+          <div class="grid-2">
+            <div class="field">
+              <label for="editPrimaryColor">Cor principal (hex)</label>
+              <input id="editPrimaryColor" type="text" placeholder="#0f766e" />
+            </div>
+            <div class="field">
+              <label for="editAccentColor">Cor de destaque (hex)</label>
+              <input id="editAccentColor" type="text" placeholder="#d97706" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="editContactTitle">Título da seção Contato</label>
+            <input id="editContactTitle" type="text" />
+          </div>
+          <div class="field">
+            <label for="editContactDesc">Descrição da seção Contato</label>
+            <textarea id="editContactDesc"></textarea>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <label for="editEmail">E-mail de contato</label>
+              <input id="editEmail" type="text" />
+            </div>
+            <div class="field">
+              <label for="editChannel">LinkedIn / Canal</label>
+              <input id="editChannel" type="text" />
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm" id="saveThemeContactBtn" type="button">Salvar cores e contato</button>
+        </div>
+
         <div class="admin-section" id="tabSecurity">
           <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 14px;">
-            Altere a senha local do painel (alterar também no código-fonte antes de publicar garante maior segurança).
+            Altere a senha local do painel, exporte/importe backup JSON ou restaure o padrão.
           </p>
           <div class="field">
             <label for="newPassInput">Nova senha</label>
             <input id="newPassInput" type="password" placeholder="Escolha uma senha forte" />
           </div>
-          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px;">
             <button class="btn btn-primary btn-sm" id="changePassBtn" type="button">Atualizar senha</button>
+            <button class="btn btn-outline btn-sm" id="exportJsonBtn" type="button">Exportar JSON</button>
             <button class="btn btn-outline btn-sm" id="resetDefaultBtn" type="button">Restaurar dados padrão</button>
           </div>
+          <div class="field">
+            <label for="importJsonArea">Importar JSON de backup</label>
+            <textarea id="importJsonArea" placeholder="Cole aqui um JSON exportado anteriormente..."></textarea>
+          </div>
+          <button class="btn btn-outline btn-sm" id="importJsonBtn" type="button">Importar dados</button>
         </div>
       </div>
     </div>
@@ -864,6 +968,8 @@
       pill: "Customer Success • Retenção, Adoção & Expansão",
       heroTitle: "Transformando clientes em promotores reais do negócio.",
       heroSubtitle: "Acompanhamento próximo do onboarding à renovação, reduzindo churn, acelerando o valor percebido e construindo relacionamentos de longo prazo com clareza e empatia.",
+      profileBio: "Ajudo empresas a estruturar jornadas de sucesso do cliente, planos de adoção e rituais de acompanhamento que aumentam retenção e receita recorrente.",
+      aboutTag: "Quem é e como pensa",
       aboutTitle: "Parceria estratégica do primeiro contato à expansão",
       aboutText: "Mais do que responder chamados, Customer Success é garantir que o cliente alcance o resultado que comprou no menor tempo possível — com comunicação transparente, métricas acompanhadas de perto e planos de ação práticos.",
       stats: [
@@ -871,6 +977,16 @@
         { val: "+38%", label: "Adoção ativa" },
         { val: "4.9/5", label: "Satisfação CSAT" }
       ],
+      journeyTitle: "Os 4 pilares da jornada do cliente",
+      journeyDesc: "Estrutura aplicada em cada conta para gerar previsibilidade e confiança.",
+      casesTitle: "Cases e resultados práticos",
+      casesDesc: "Filtre por frente de atuação para conhecer os desafios enfrentados e o impacto gerado.",
+      testTitle: "O que clientes e lideranças dizem",
+      testDesc: "Relatos sobre acompanhamento próximo, clareza na execução e resultados consistentes.",
+      contactTitle: "Vamos conversar sobre o seu cenário?",
+      contactDesc: "Se você busca estruturar Customer Success, melhorar o onboarding ou acompanhar melhor suas contas, envie uma mensagem.",
+      primaryColor: "#0f766e",
+      accentColor: "#d97706",
       email: "contato@exemplo-cs.com.br",
       channel: "linkedin.com/in/exemplo-cs",
       pillars: [
@@ -960,8 +1076,20 @@
       document.getElementById("heroPill").textContent = state.pill;
       document.getElementById("heroTitle").textContent = state.heroTitle;
       document.getElementById("heroSubtitle").textContent = state.heroSubtitle;
+      document.documentElement.style.setProperty("--primary", state.primaryColor || "#0f766e");
+      document.documentElement.style.setProperty("--accent", state.accentColor || "#d97706");
+      document.getElementById("profileBio").textContent = state.profileBio || "";
+      document.getElementById("aboutTag").textContent = state.aboutTag || "Quem é e como pensa";
       document.getElementById("aboutTitle").textContent = state.aboutTitle;
       document.getElementById("aboutText").textContent = state.aboutText;
+      document.getElementById("journeyTitle").textContent = state.journeyTitle || "Os 4 pilares da jornada do cliente";
+      document.getElementById("journeyDesc").textContent = state.journeyDesc || "";
+      document.getElementById("casesTitle").textContent = state.casesTitle || "Cases e resultados práticos";
+      document.getElementById("casesDesc").textContent = state.casesDesc || "";
+      document.getElementById("testTitle").textContent = state.testTitle || "O que clientes e lideranças dizem";
+      document.getElementById("testDesc").textContent = state.testDesc || "";
+      document.getElementById("contactTitle").textContent = state.contactTitle || "Vamos conversar sobre o seu cenário?";
+      document.getElementById("contactDesc").textContent = state.contactDesc || "";
       document.getElementById("contactEmail").textContent = state.email;
       document.getElementById("contactChannel").textContent = state.channel;
       document.getElementById("footerCopy").textContent = `© ${new Date().getFullYear()} ${state.name} • Portfólio de Customer Success.`;
@@ -1096,8 +1224,12 @@
     function fillProfileInputs() {
       document.getElementById("editName").value = state.name;
       document.getElementById("editRole").value = state.role;
+      document.getElementById("editPill").value = state.pill || "";
       document.getElementById("editHeroTitle").value = state.heroTitle;
       document.getElementById("editHeroSub").value = state.heroSubtitle;
+      document.getElementById("editProfileBio").value = state.profileBio || "";
+      document.getElementById("editAboutTag").value = state.aboutTag || "";
+      document.getElementById("editAboutTitle").value = state.aboutTitle;
       document.getElementById("editAbout").value = state.aboutText;
       document.getElementById("editS1V").value = state.stats?.[0]?.val || "";
       document.getElementById("editS1L").value = state.stats?.[0]?.label || "";
@@ -1105,25 +1237,120 @@
       document.getElementById("editS2L").value = state.stats?.[1]?.label || "";
       document.getElementById("editS3V").value = state.stats?.[2]?.val || "";
       document.getElementById("editS3L").value = state.stats?.[2]?.label || "";
+      document.getElementById("editJourneyTitle").value = state.journeyTitle || "";
+      document.getElementById("editJourneyDesc").value = state.journeyDesc || "";
+      document.getElementById("editCasesTitle").value = state.casesTitle || "";
+      document.getElementById("editCasesDesc").value = state.casesDesc || "";
+      document.getElementById("editTestTitle").value = state.testTitle || "";
+      document.getElementById("editTestDesc").value = state.testDesc || "";
+      document.getElementById("editPrimaryColor").value = state.primaryColor || "#0f766e";
+      document.getElementById("editAccentColor").value = state.accentColor || "#d97706";
+      document.getElementById("editContactTitle").value = state.contactTitle || "";
+      document.getElementById("editContactDesc").value = state.contactDesc || "";
       document.getElementById("editEmail").value = state.email;
       document.getElementById("editChannel").value = state.channel;
+      renderPillarsEditor();
+    }
+
+    function renderPillarsEditor() {
+      const box = document.getElementById("adminPillarsList");
+      if (!box) return;
+      box.innerHTML = state.pillars.map((p, idx) => `
+        <div class="list-item">
+          <div class="grid-2">
+            <div class="field">
+              <label>Etapa / Tag ${idx + 1}</label>
+              <input class="pillar-step-input" data-idx="${idx}" type="text" value="${escapeHtml(p.step)}" />
+            </div>
+            <div class="field">
+              <label>Título ${idx + 1}</label>
+              <input class="pillar-title-input" data-idx="${idx}" type="text" value="${escapeHtml(p.title)}" />
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label>Descrição ${idx + 1}</label>
+            <textarea class="pillar-desc-input" data-idx="${idx}">${escapeHtml(p.desc)}</textarea>
+          </div>
+        </div>
+      `).join("");
     }
 
     document.getElementById("saveProfileBtn").addEventListener("click", () => {
       state.name = document.getElementById("editName").value.trim() || state.name;
       state.role = document.getElementById("editRole").value.trim() || state.role;
+      state.pill = document.getElementById("editPill").value.trim() || state.pill;
       state.heroTitle = document.getElementById("editHeroTitle").value.trim() || state.heroTitle;
       state.heroSubtitle = document.getElementById("editHeroSub").value.trim() || state.heroSubtitle;
+      state.profileBio = document.getElementById("editProfileBio").value.trim() || state.profileBio;
+      state.aboutTag = document.getElementById("editAboutTag").value.trim() || state.aboutTag;
+      state.aboutTitle = document.getElementById("editAboutTitle").value.trim() || state.aboutTitle;
       state.aboutText = document.getElementById("editAbout").value.trim() || state.aboutText;
       state.stats = [
         { val: document.getElementById("editS1V").value.trim(), label: document.getElementById("editS1L").value.trim() },
         { val: document.getElementById("editS2V").value.trim(), label: document.getElementById("editS2L").value.trim() },
         { val: document.getElementById("editS3V").value.trim(), label: document.getElementById("editS3L").value.trim() }
       ];
+      saveData(state);
+      alert("Perfil e métricas salvos!");
+    });
+
+    document.getElementById("savePillarsBtn").addEventListener("click", () => {
+      state.journeyTitle = document.getElementById("editJourneyTitle").value.trim() || state.journeyTitle;
+      state.journeyDesc = document.getElementById("editJourneyDesc").value.trim() || state.journeyDesc;
+      const steps = document.querySelectorAll(".pillar-step-input");
+      const titles = document.querySelectorAll(".pillar-title-input");
+      const descs = document.querySelectorAll(".pillar-desc-input");
+      state.pillars = state.pillars.map((p, idx) => ({
+        step: steps[idx]?.value.trim() || p.step,
+        title: titles[idx]?.value.trim() || p.title,
+        desc: descs[idx]?.value.trim() || p.desc
+      }));
+      saveData(state);
+      alert("Pilares e metodologia salvos!");
+    });
+
+    document.getElementById("saveCasesSectionBtn").addEventListener("click", () => {
+      state.casesTitle = document.getElementById("editCasesTitle").value.trim() || state.casesTitle;
+      state.casesDesc = document.getElementById("editCasesDesc").value.trim() || state.casesDesc;
+      saveData(state);
+      alert("Cabeçalho de Cases salvo!");
+    });
+
+    document.getElementById("saveTestSectionBtn").addEventListener("click", () => {
+      state.testTitle = document.getElementById("editTestTitle").value.trim() || state.testTitle;
+      state.testDesc = document.getElementById("editTestDesc").value.trim() || state.testDesc;
+      saveData(state);
+      alert("Cabeçalho de Relatos salvo!");
+    });
+
+    document.getElementById("saveThemeContactBtn").addEventListener("click", () => {
+      state.primaryColor = document.getElementById("editPrimaryColor").value.trim() || state.primaryColor;
+      state.accentColor = document.getElementById("editAccentColor").value.trim() || state.accentColor;
+      state.contactTitle = document.getElementById("editContactTitle").value.trim() || state.contactTitle;
+      state.contactDesc = document.getElementById("editContactDesc").value.trim() || state.contactDesc;
       state.email = document.getElementById("editEmail").value.trim() || state.email;
       state.channel = document.getElementById("editChannel").value.trim() || state.channel;
       saveData(state);
-      alert("Perfil e métricas salvos!");
+      alert("Cores e contato salvos!");
+    });
+
+    document.getElementById("exportJsonBtn").addEventListener("click", () => {
+      const jsonStr = JSON.stringify(state, null, 2);
+      document.getElementById("importJsonArea").value = jsonStr;
+      navigator.clipboard?.writeText(jsonStr).catch(() => {});
+      alert("JSON gerado no campo abaixo (e copiado para a área de transferência, se permitido).");
+    });
+
+    document.getElementById("importJsonBtn").addEventListener("click", () => {
+      try {
+        const parsed = JSON.parse(document.getElementById("importJsonArea").value);
+        state = { ...DEFAULT_DATA, ...parsed };
+        saveData(state);
+        fillProfileInputs();
+        alert("Dados importados com sucesso!");
+      } catch {
+        alert("JSON inválido. Verifique o conteúdo antes de importar.");
+      }
     });
 
     function renderAdminLists() {
