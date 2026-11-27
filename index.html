@@ -430,6 +430,13 @@
       max-width: 680px;
     }
 
+    .sync-badge {
+      display: inline-block;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
     .contact-box {
       display: grid;
       grid-template-columns: 1fr 1.1fr;
@@ -715,7 +722,8 @@
         <div class="testimonials-grid" id="testimonialsGrid"></div>
 
         <div class="comment-form-card">
-          <h3 style="margin-bottom: 12px;">Deixar um comentário</h3>
+          <h3 style="margin-bottom: 6px;">Deixar um comentário</h3>
+          <div class="sync-badge" id="commentsSyncStatus">Conectando aos comentários compartilhados...</div>
           <form id="publicCommentForm">
             <div class="grid-2">
               <div class="field">
@@ -1042,6 +1050,14 @@
             <input id="editWhatsapp" type="text" placeholder="Ex.: (11) 99999-9999 ou Link de agendamento" />
           </div>
           <div class="field">
+            <label for="editCommentsApiUrl">URL compartilhada de comentários (JSONBin)</label>
+            <input id="editCommentsApiUrl" type="text" placeholder="https://api.jsonbin.io/v3/b/6b08facf3957a11c13b5d4e8" />
+          </div>
+          <div class="field">
+            <label for="editCommentsApiKey">Chave de API do JSONBin (X-Master-Key, se o Bin for privado)</label>
+            <input id="editCommentsApiKey" type="password" placeholder="$2a$10$..." />
+          </div>
+          <div class="field">
             <label for="editFormspreeUrl">Endpoint do Formspree (opcional — para receber mensagens no e-mail)</label>
             <input id="editFormspreeUrl" type="text" placeholder="Ex.: https://formspree.io/f/seuCodigo" />
           </div>
@@ -1075,6 +1091,8 @@
     const DEFAULT_PASS = "admin123";
     const STORAGE_KEY = "cs_portfolio_data_v1";
     const PASS_KEY = "cs_portfolio_pass_v1";
+    const DEFAULT_BIN_ID = "6b08facf3957a11c13b5d4e8";
+    const DEFAULT_BIN_URL = `https://api.jsonbin.io/v3/b/${DEFAULT_BIN_ID}`;
 
     const DEFAULT_DATA = {
       name: "Bárbara David",
@@ -1103,6 +1121,8 @@
       contactDesc: "Se você busca estruturar Customer Success, melhorar o onboarding ou acompanhar melhor suas contas, envie uma mensagem ou fale pelos canais abaixo.",
       primaryColor: "#0f766e",
       accentColor: "#d97706",
+      commentsApiUrl: DEFAULT_BIN_URL,
+      commentsApiKey: "",
       formspreeUrl: "",
       email: "contato@barbaradavid-cs.com.br",
       channel: "linkedin.com/in/barbaradavid",
@@ -1167,7 +1187,11 @@
     function loadData() {
       try {
         const saved = localStorage.getItem(STORAGE_KEY);
-        return saved ? { ...DEFAULT_DATA, ...JSON.parse(saved) } : structuredClone(DEFAULT_DATA);
+        const merged = saved ? { ...DEFAULT_DATA, ...JSON.parse(saved) } : structuredClone(DEFAULT_DATA);
+        if (!merged.commentsApiUrl) {
+          merged.commentsApiUrl = DEFAULT_BIN_URL;
+        }
+        return merged;
       } catch {
         return structuredClone(DEFAULT_DATA);
       }
@@ -1199,6 +1223,18 @@
       return "★".repeat(n) + "☆".repeat(5 - n);
     }
 
+    function buildBinHeaders(includeJsonContentType = false) {
+      const headers = {};
+      if (includeJsonContentType) {
+        headers["Content-Type"] = "application/json";
+      }
+      const key = (state.commentsApiKey || "").trim();
+      if (key) {
+        headers["X-Master-Key"] = key;
+      }
+      return headers;
+    }
+
     let state = loadData();
     let activeFilter = "todos";
     let selectedStar = 5;
@@ -1218,6 +1254,58 @@
       if (!btn) return;
       updateStarPicker(btn.dataset.value);
     });
+
+    async function syncSharedCommentsIfConfigured() {
+      const url = (state.commentsApiUrl || "").trim();
+      const badge = document.getElementById("commentsSyncStatus");
+      if (!url.startsWith("https://")) {
+        badge.textContent = "Comentários salvos neste dispositivo.";
+        return;
+      }
+      badge.textContent = "Carregando comentários compartilhados...";
+      try {
+        const resp = await fetch(url, { headers: buildBinHeaders(false) });
+        if (!resp.ok) {
+          throw new Error(`HTTP ${resp.status}`);
+        }
+        const json = await resp.json();
+        const remoteList = Array.isArray(json)
+          ? json
+          : Array.isArray(json.testimonials)
+            ? json.testimonials
+            : Array.isArray(json.record?.testimonials)
+              ? json.record.testimonials
+              : null;
+        if (remoteList) {
+          state.testimonials = remoteList;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          renderAll();
+          badge.textContent = "Comentários compartilhados sincronizados (todos os visitantes veem).";
+        } else {
+          badge.textContent = "Bin conectado, mas sem lista 'testimonials' ainda.";
+        }
+      } catch (err) {
+        badge.textContent = "Bin privado ou sem chave: adicione a X-Master-Key em 'Cores & Contato' ou torne o Bin público para todos verem e comentarem.";
+      }
+    }
+
+    async function pushSharedComment() {
+      const url = (state.commentsApiUrl || "").trim();
+      if (!url.startsWith("https://")) return { ok: false, reason: "no_url" };
+      try {
+        const resp = await fetch(url, {
+          method: "PUT",
+          headers: buildBinHeaders(true),
+          body: JSON.stringify({ testimonials: state.testimonials })
+        });
+        if (!resp.ok) {
+          return { ok: false, reason: `http_${resp.status}` };
+        }
+        return { ok: true };
+      } catch {
+        return { ok: false, reason: "network_or_cors" };
+      }
+    }
 
     function renderAll() {
       const initials = getInitials(state.name);
@@ -1345,23 +1433,30 @@
       renderAll();
     });
 
-    document.getElementById("publicCommentForm").addEventListener("submit", (e) => {
+    document.getElementById("publicCommentForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const author = document.getElementById("commentAuthor").value.trim();
       const rating = Number(document.getElementById("commentRating").value) || 5;
       const text = document.getElementById("commentText").value.trim();
       if (!author || !text) return;
-      state.testimonials.push({
+
+      const newItem = {
         id: Date.now(),
         author,
         role: "Comentário de cliente",
         rating,
         quote: text
-      });
+      };
+
+      state.testimonials.push(newItem);
       saveData(state);
+      const syncResult = await pushSharedComment();
+
       const fb = document.getElementById("commentFeedback");
       fb.style.display = "block";
-      fb.textContent = "Comentário publicado!";
+      fb.textContent = syncResult.ok
+        ? "Comentário publicado e salvo para todos verem!"
+        : "Comentário exibido aqui. Para salvar para outros visitantes, configure a X-Master-Key em 'Cores & Contato' ou deixe o Bin público.";
       e.target.reset();
       updateStarPicker(5);
     });
@@ -1466,6 +1561,8 @@
       document.getElementById("editEmail").value = state.email;
       document.getElementById("editChannel").value = state.channel;
       document.getElementById("editWhatsapp").value = state.whatsapp || "";
+      document.getElementById("editCommentsApiUrl").value = state.commentsApiUrl || DEFAULT_BIN_URL;
+      document.getElementById("editCommentsApiKey").value = state.commentsApiKey || "";
       document.getElementById("editFormspreeUrl").value = state.formspreeUrl || "";
       renderPillarsEditor();
     }
@@ -1550,8 +1647,11 @@
       state.email = document.getElementById("editEmail").value.trim() || state.email;
       state.channel = document.getElementById("editChannel").value.trim() || state.channel;
       state.whatsapp = document.getElementById("editWhatsapp").value.trim();
+      state.commentsApiUrl = document.getElementById("editCommentsApiUrl").value.trim() || DEFAULT_BIN_URL;
+      state.commentsApiKey = document.getElementById("editCommentsApiKey").value.trim();
       state.formspreeUrl = document.getElementById("editFormspreeUrl").value.trim();
       saveData(state);
+      syncSharedCommentsIfConfigured();
       alert("Cores e contato salvos!");
     });
 
@@ -1613,9 +1713,10 @@
       alert("Foto do case atualizada!");
     };
 
-    window.deleteTestimonial = function(id) {
+    window.deleteTestimonial = async function(id) {
       state.testimonials = state.testimonials.filter(t => t.id !== id);
       saveData(state);
+      await pushSharedComment();
     };
 
     document.getElementById("addCaseBtn").addEventListener("click", () => {
@@ -1643,7 +1744,7 @@
       document.getElementById("newCaseDesc").value = "";
     });
 
-    document.getElementById("addTestBtn").addEventListener("click", () => {
+    document.getElementById("addTestBtn").addEventListener("click", async () => {
       const author = document.getElementById("newTestAuthor").value.trim();
       const role = document.getElementById("newTestRole").value.trim();
       const rating = Number(document.getElementById("newTestRating").value) || 5;
@@ -1652,14 +1753,16 @@
         alert("Preencha o nome e o depoimento.");
         return;
       }
-      state.testimonials.push({
+      const item = {
         id: Date.now(),
         author,
         role: role || "Cliente",
         rating,
         quote
-      });
+      };
+      state.testimonials.push(item);
       saveData(state);
+      await pushSharedComment();
       document.getElementById("newTestAuthor").value = "";
       document.getElementById("newTestRole").value = "";
       document.getElementById("newTestRating").value = "5";
@@ -1688,6 +1791,7 @@
 
     updateStarPicker(5);
     renderAll();
+    syncSharedCommentsIfConfigured();
   </script>
 </body>
 </html>
