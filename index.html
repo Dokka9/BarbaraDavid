@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Customer Success — Portfólio & Resultados</title>
+  <title>Bárbara David • Customer Success & Portfólio</title>
   <style>
     :root {
       --bg: #f8fafc;
@@ -47,7 +47,6 @@
       margin: 0 auto;
     }
 
-    /* Header */
     header {
       position: sticky;
       top: 0;
@@ -88,7 +87,7 @@
     nav {
       display: flex;
       align-items: center;
-      gap: 22px;
+      gap: 20px;
       flex-wrap: wrap;
     }
 
@@ -144,7 +143,6 @@
       border-radius: 8px;
     }
 
-    /* Hero */
     .hero {
       padding: 64px 0 48px;
     }
@@ -203,17 +201,25 @@
       margin-bottom: 20px;
     }
 
-    .avatar {
+    .avatar, .avatar-img {
       width: 64px;
       height: 64px;
       border-radius: 16px;
+      flex-shrink: 0;
+    }
+
+    .avatar {
       background: linear-gradient(135deg, var(--primary), #14b8a6);
       color: #fff;
       display: grid;
       place-items: center;
       font-size: 1.4rem;
       font-weight: 800;
-      flex-shrink: 0;
+    }
+
+    .avatar-img {
+      object-fit: cover;
+      border: 1px solid var(--border);
     }
 
     .stats-grid {
@@ -243,7 +249,6 @@
       color: var(--muted);
     }
 
-    /* Sections */
     section {
       padding: 56px 0;
     }
@@ -272,7 +277,6 @@
       color: var(--muted);
     }
 
-    /* Pillars */
     .pillars-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -308,7 +312,6 @@
       font-size: 0.94rem;
     }
 
-    /* Cases */
     .filters {
       display: flex;
       gap: 10px;
@@ -334,10 +337,24 @@
       border-color: var(--primary);
     }
 
-    .cases-grid {
+    .cases-grid, .testimonials-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
+    }
+
+    .testimonials-grid {
+      margin-bottom: 28px;
+    }
+
+    .case-img {
+      width: 100%;
+      height: 175px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 14px;
+      border: 1px solid var(--border);
+      display: block;
     }
 
     .case-meta {
@@ -358,13 +375,6 @@
       font-size: 0.9rem;
     }
 
-    /* Testimonials */
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
     .quote {
       font-style: italic;
       color: var(--text);
@@ -381,7 +391,15 @@
       color: var(--muted);
     }
 
-    /* Contact */
+    .comment-form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 4px 16px -8px rgba(15, 23, 42, 0.08);
+      max-width: 680px;
+    }
+
     .contact-box {
       display: grid;
       grid-template-columns: 1fr 1.1fr;
@@ -391,6 +409,13 @@
       border-radius: var(--radius);
       padding: 32px;
       box-shadow: var(--shadow);
+    }
+
+    .contact-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
     }
 
     .field {
@@ -404,9 +429,7 @@
       margin-bottom: 6px;
     }
 
-    input,
-    textarea,
-    select {
+    input, textarea, select {
       width: 100%;
       padding: 11px 13px;
       border-radius: 10px;
@@ -417,9 +440,7 @@
       color: var(--text);
     }
 
-    input:focus,
-    textarea:focus,
-    select:focus {
+    input:focus, textarea:focus, select:focus {
       outline: 2px solid rgba(15, 118, 110, 0.25);
       border-color: var(--primary);
     }
@@ -440,7 +461,6 @@
       display: none;
     }
 
-    /* Footer */
     footer {
       border-top: 1px solid var(--border);
       padding: 28px 0;
@@ -457,7 +477,6 @@
       gap: 14px;
     }
 
-    /* Modal / Admin Drawer */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -522,20 +541,17 @@
       gap: 10px;
       margin-bottom: 6px;
     }
+
     .grid-2 {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
     }
+
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-    }
-    @media (max-width: 700px) {
-      .grid-2, .grid-3 {
-        grid-template-columns: 1fr;
-      }
     }
 
     @media (max-width: 900px) {
@@ -547,20 +563,26 @@
         grid-template-columns: 1fr;
       }
     }
+
+    @media (max-width: 700px) {
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="container nav-wrap">
       <a href="#top" class="brand">
-        <span class="brand-badge" id="brandBadge">CS</span>
-        <span id="brandName">Camila Costa • Customer Success</span>
+        <span class="brand-badge" id="brandBadge">BD</span>
+        <span id="brandName">Bárbara David • Customer Success</span>
       </a>
       <nav>
         <a href="#sobre">Sobre</a>
         <a href="#jornada">Como Atua</a>
         <a href="#cases">Cases</a>
-        <a href="#relatos">Relatos</a>
+        <a href="#relatos">Depoimentos</a>
         <a href="#contato" class="btn btn-primary btn-sm">Falar com ela</a>
       </nav>
     </div>
@@ -577,15 +599,15 @@
           </p>
           <div class="hero-actions">
             <a href="#cases" class="btn btn-primary">Ver trabalhos e resultados</a>
-            <a href="#relatos" class="btn btn-outline">Ler relatos de clientes</a>
+            <a href="#relatos" class="btn btn-outline">Ver depoimentos</a>
           </div>
         </div>
 
         <aside class="hero-card">
           <div class="profile-top">
-            <div class="avatar" id="avatarInitials">CC</div>
+            <div class="avatar" id="avatarInitials">BD</div>
             <div>
-              <h3 id="profileName">Camila Costa</h3>
+              <h3 id="profileName">Bárbara David</h3>
               <p id="profileRole" style="color: var(--muted); font-size: 0.92rem;">Especialista em Customer Success & Onboarding</p>
             </div>
           </div>
@@ -613,7 +635,7 @@
     <section id="sobre">
       <div class="container">
         <div class="section-head">
-          <div class="section-tag">Quem é e como pensa</div>
+          <div class="section-tag" id="aboutTag">Quem é e como pensa</div>
           <h2 id="aboutTitle">Parceria estratégica do primeiro contato à expansão</h2>
           <p class="section-desc" id="aboutText">
             Mais do que responder chamados, Customer Success é garantir que o cliente alcance o resultado que comprou no menor tempo possível — com comunicação transparente, métricas acompanhadas de perto e planos de ação práticos.
@@ -657,9 +679,32 @@
         <div class="section-head">
           <div class="section-tag">Depoimentos</div>
           <h2 id="testTitle">O que clientes e lideranças dizem</h2>
-          <p class="section-desc" id="testDesc">Relatos sobre acompanhamento próximo, clareza na execução e resultados consistentes.</p>
+          <p class="section-desc" id="testDesc">Relatos sobre acompanhamento próximo, clareza na execução e resultados consistentes — deixe seu comentário abaixo.</p>
         </div>
+
         <div class="testimonials-grid" id="testimonialsGrid"></div>
+
+        <div class="comment-form-card">
+          <h3 style="margin-bottom: 12px;">Deixar um comentário</h3>
+          <form id="publicCommentForm">
+            <div class="grid-2">
+              <div class="field">
+                <label for="commentAuthor">Seu nome</label>
+                <input id="commentAuthor" type="text" required placeholder="Ex.: Carla Mendes" />
+              </div>
+              <div class="field">
+                <label for="commentRole">Cargo ou empresa (opcional)</label>
+                <input id="commentRole" type="text" placeholder="Ex.: Head de Operações • Empresa X" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="commentText">Seu depoimento ou comentário</label>
+              <textarea id="commentText" required placeholder="Escreva como foi a experiência ou deixe seu comentário..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Publicar comentário</button>
+            <div class="feedback" id="commentFeedback"></div>
+          </form>
+        </div>
       </div>
     </section>
 
@@ -670,14 +715,22 @@
             <div class="section-tag">Contato</div>
             <h2 id="contactTitle">Vamos conversar sobre o seu cenário?</h2>
             <p class="section-desc" id="contactDesc" style="margin-bottom: 18px;">
-              Se você busca estruturar Customer Success, melhorar o onboarding ou acompanhar melhor suas contas, envie uma mensagem.
+              Se você busca estruturar Customer Success, melhorar o onboarding ou acompanhar melhor suas contas, envie uma mensagem ou fale pelos canais abaixo.
             </p>
             <p style="font-size: 0.92rem; color: var(--muted); margin-bottom: 8px;">
-              <strong>E-mail:</strong> <span id="contactEmail">contato@exemplo-cs.com.br</span>
+              <strong>E-mail:</strong> <span id="contactEmail">contato@barbaradavid-cs.com.br</span>
+            </p>
+            <p style="font-size: 0.92rem; color: var(--muted); margin-bottom: 8px;">
+              <strong>LinkedIn / Canal:</strong> <span id="contactChannel">linkedin.com/in/barbaradavid</span>
             </p>
             <p style="font-size: 0.92rem; color: var(--muted);">
-              <strong>LinkedIn / Canal:</strong> <span id="contactChannel">linkedin.com/in/exemplo-cs</span>
+              <strong>WhatsApp / Atendimento:</strong> <span id="contactWhatsapp">Disponível sob consulta</span>
             </p>
+            <div class="contact-actions">
+              <button class="btn btn-outline btn-sm" id="copyEmailBtn" type="button">Copiar e-mail</button>
+              <a class="btn btn-outline btn-sm" id="mailtoLink" href="mailto:contato@barbaradavid-cs.com.br">Abrir e-mail</a>
+              <a class="btn btn-outline btn-sm" id="channelLink" href="https://linkedin.com" target="_blank" rel="noopener noreferrer">Abrir canal</a>
+            </div>
           </div>
 
           <form id="contactForm">
@@ -712,12 +765,11 @@
 
   <footer>
     <div class="container footer-row">
-      <div id="footerCopy">© 2026 Portfólio de Customer Success. Todos os direitos reservados.</div>
+      <div id="footerCopy">© 2026 Bárbara David • Portfólio de Customer Success.</div>
       <button class="btn btn-outline btn-sm" id="openAdminBtn" type="button">Configurar site</button>
     </div>
   </footer>
 
-  <!-- Admin Modal -->
   <div class="modal-backdrop" id="adminModal" aria-hidden="true">
     <div class="modal">
       <div class="modal-header">
@@ -727,7 +779,7 @@
 
       <div id="loginBox">
         <p style="color: var(--muted); font-size: 0.92rem; margin-bottom: 14px;">
-          Digite a senha de administrador para editar perfil, métricas, cases e depoimentos neste navegador.
+          Digite a senha de administrador para editar perfil, fotos, métricas, cases, depoimentos e contato neste navegador.
         </p>
         <div class="field">
           <label for="adminPassInput">Senha</label>
@@ -744,7 +796,7 @@
           <button class="btn btn-primary btn-sm admin-tab" data-tab="tabProfile" type="button">Perfil & Métricas</button>
           <button class="btn btn-outline btn-sm admin-tab" data-tab="tabPillars" type="button">4 Pilares & Seções</button>
           <button class="btn btn-outline btn-sm admin-tab" data-tab="tabCases" type="button">Cases</button>
-          <button class="btn btn-outline btn-sm admin-tab" data-tab="tabTestimonials" type="button">Relatos</button>
+          <button class="btn btn-outline btn-sm admin-tab" data-tab="tabTestimonials" type="button">Depoimentos</button>
           <button class="btn btn-outline btn-sm admin-tab" data-tab="tabTheme" type="button">Cores & Contato</button>
           <button class="btn btn-outline btn-sm admin-tab" data-tab="tabSecurity" type="button">Senha & Backup</button>
         </div>
@@ -759,6 +811,10 @@
               <label for="editRole">Cargo / Chamada curta</label>
               <input id="editRole" type="text" />
             </div>
+          </div>
+          <div class="field">
+            <label for="editAvatarUrl">Foto de perfil (arquivo no GitHub como foto-perfil.jpg ou URL)</label>
+            <input id="editAvatarUrl" type="text" placeholder="Ex.: foto-perfil.jpg ou https://..." />
           </div>
           <div class="field">
             <label for="editPill">Etiqueta superior (Pill)</label>
@@ -865,6 +921,10 @@
             <input id="newCaseImpact" type="text" placeholder="Ex.: -32% de cancelamento em 6 meses" />
           </div>
           <div class="field">
+            <label for="newCasePhoto">Foto do case (opcional — arquivo no GitHub como case-1.jpg ou URL)</label>
+            <input id="newCasePhoto" type="text" placeholder="Ex.: case-1.jpg ou https://..." />
+          </div>
+          <div class="field">
             <label for="newCaseDesc">Resumo do trabalho</label>
             <textarea id="newCaseDesc" placeholder="Descreva o contexto, ação e entrega..."></textarea>
           </div>
@@ -874,17 +934,17 @@
         <div class="admin-section" id="tabTestimonials">
           <div class="grid-2">
             <div class="field">
-              <label for="editTestTitle">Título da seção Relatos</label>
+              <label for="editTestTitle">Título da seção Depoimentos</label>
               <input id="editTestTitle" type="text" />
             </div>
             <div class="field">
-              <label for="editTestDesc">Descrição da seção Relatos</label>
+              <label for="editTestDesc">Descrição da seção Depoimentos</label>
               <input id="editTestDesc" type="text" />
             </div>
           </div>
-          <button class="btn btn-outline btn-sm" id="saveTestSectionBtn" type="button" style="margin-bottom: 14px;">Salvar cabeçalho de Relatos</button>
+          <button class="btn btn-outline btn-sm" id="saveTestSectionBtn" type="button" style="margin-bottom: 14px;">Salvar cabeçalho de Depoimentos</button>
           <div id="adminTestimonialsList"></div>
-          <h4 style="margin: 14px 0 10px;">Adicionar novo relato</h4>
+          <h4 style="margin: 14px 0 10px;">Adicionar novo depoimento / comentário</h4>
           <div class="field">
             <label for="newTestAuthor">Nome do cliente</label>
             <input id="newTestAuthor" type="text" placeholder="Ex.: Lucas Almeida" />
@@ -894,10 +954,10 @@
             <input id="newTestRole" type="text" placeholder="Ex.: Head de Operações • Empresa X" />
           </div>
           <div class="field">
-            <label for="newTestQuote">Depoimento</label>
-            <textarea id="newTestQuote" placeholder="Escreva o relato do cliente..."></textarea>
+            <label for="newTestQuote">Depoimento ou comentário</label>
+            <textarea id="newTestQuote" placeholder="Escreva o relato ou comentário..."></textarea>
           </div>
-          <button class="btn btn-primary btn-sm" id="addTestBtn" type="button">Adicionar relato</button>
+          <button class="btn btn-primary btn-sm" id="addTestBtn" type="button">Adicionar depoimento</button>
         </div>
 
         <div class="admin-section" id="tabTheme">
@@ -925,9 +985,17 @@
               <input id="editEmail" type="text" />
             </div>
             <div class="field">
-              <label for="editChannel">LinkedIn / Canal</label>
+              <label for="editChannel">LinkedIn / Canal (URL ou texto)</label>
               <input id="editChannel" type="text" />
             </div>
+          </div>
+          <div class="field">
+            <label for="editWhatsapp">WhatsApp / Atendimento</label>
+            <input id="editWhatsapp" type="text" placeholder="Ex.: (11) 99999-9999 ou Link de agendamento" />
+          </div>
+          <div class="field">
+            <label for="editFormspreeUrl">Endpoint do Formspree (opcional — para receber mensagens no e-mail)</label>
+            <input id="editFormspreeUrl" type="text" placeholder="Ex.: https://formspree.io/f/seuCodigo" />
           </div>
           <button class="btn btn-primary btn-sm" id="saveThemeContactBtn" type="button">Salvar cores e contato</button>
         </div>
@@ -956,15 +1024,15 @@
   </div>
 
   <script>
-    // Troque "admin123" antes de publicar o site
     const DEFAULT_PASS = "admin123";
     const STORAGE_KEY = "cs_portfolio_data_v1";
     const PASS_KEY = "cs_portfolio_pass_v1";
 
     const DEFAULT_DATA = {
-      name: "Camila Costa",
-      initials: "CC",
+      name: "Bárbara David",
+      initials: "BD",
       role: "Especialista em Customer Success & Onboarding",
+      avatarUrl: "",
       pill: "Customer Success • Retenção, Adoção & Expansão",
       heroTitle: "Transformando clientes em promotores reais do negócio.",
       heroSubtitle: "Acompanhamento próximo do onboarding à renovação, reduzindo churn, acelerando o valor percebido e construindo relacionamentos de longo prazo com clareza e empatia.",
@@ -982,13 +1050,15 @@
       casesTitle: "Cases e resultados práticos",
       casesDesc: "Filtre por frente de atuação para conhecer os desafios enfrentados e o impacto gerado.",
       testTitle: "O que clientes e lideranças dizem",
-      testDesc: "Relatos sobre acompanhamento próximo, clareza na execução e resultados consistentes.",
+      testDesc: "Relatos sobre acompanhamento próximo, clareza na execução e resultados consistentes — deixe seu comentário abaixo.",
       contactTitle: "Vamos conversar sobre o seu cenário?",
-      contactDesc: "Se você busca estruturar Customer Success, melhorar o onboarding ou acompanhar melhor suas contas, envie uma mensagem.",
+      contactDesc: "Se você busca estruturar Customer Success, melhorar o onboarding ou acompanhar melhor suas contas, envie uma mensagem ou fale pelos canais abaixo.",
       primaryColor: "#0f766e",
       accentColor: "#d97706",
-      email: "contato@exemplo-cs.com.br",
-      channel: "linkedin.com/in/exemplo-cs",
+      formspreeUrl: "",
+      email: "contato@barbaradavid-cs.com.br",
+      channel: "linkedin.com/in/barbaradavid",
+      whatsapp: "Disponível sob consulta",
       pillars: [
         { step: "01 • Onboarding", title: "Ativação rápida", desc: "Plano de primeiros passos claro para que o cliente veja valor logo nas primeiras semanas." },
         { step: "02 • Adoção", title: "Uso contínuo", desc: "Acompanhamento de indicadores de uso, capacitação de times e superação de gargalos." },
@@ -1001,6 +1071,7 @@
           title: "Estruturação de Onboarding em 30 dias",
           category: "onboarding",
           impact: "Tempo para primeiro valor reduzido em 40%",
+          photo: "",
           desc: "Criação de checklist guiado, reuniões de kick-off objetivas e acompanhamento semanal das metas iniciais de novos clientes."
         },
         {
@@ -1008,6 +1079,7 @@
           title: "Playbook de Saúde da Conta & Renovação",
           category: "retencao",
           impact: "Retenção elevada de 84% para 94%",
+          photo: "",
           desc: "Definição de sinais de alerta de engajamento, planos de ação conjuntos com o cliente e revisão trimestral de resultados (QBR)."
         },
         {
@@ -1015,6 +1087,7 @@
           title: "Programa de Relacionamento e Indicação",
           category: "expansao",
           impact: "+27% em expansão de contas ativas",
+          photo: "",
           desc: "Mapeamento de clientes promotores, cases de sucesso estruturados e convite para expansão de assentos e módulos."
         }
       ],
@@ -1059,8 +1132,15 @@
     }
 
     function getInitials(name) {
-      const parts = (name || "CS").trim().split(/\s+/);
-      return ((parts[0]?.[0] || "") + (parts[1]?.[0] || "")).toUpperCase() || "CS";
+      const parts = (name || "BD").trim().split(/\s+/);
+      return ((parts[0]?.[0] || "") + (parts[1]?.[0] || "")).toUpperCase() || "BD";
+    }
+
+    function normalizeChannelUrl(val) {
+      const raw = (val || "").trim();
+      if (!raw) return "https://linkedin.com";
+      if (raw.startsWith("http://") || raw.startsWith("https://")) return raw;
+      return "https://" + raw.replace(/^\/+/, "");
     }
 
     let state = loadData();
@@ -1070,7 +1150,16 @@
       const initials = getInitials(state.name);
       document.getElementById("brandBadge").textContent = initials;
       document.getElementById("brandName").textContent = `${state.name} • Customer Success`;
-      document.getElementById("avatarInitials").textContent = initials;
+
+      const avatarEl = document.getElementById("avatarInitials");
+      if (state.avatarUrl && state.avatarUrl.trim()) {
+        avatarEl.outerHTML = `<img id="avatarInitials" class="avatar-img" src="${escapeHtml(state.avatarUrl.trim())}" alt="${escapeHtml(state.name)}" onerror="this.outerHTML='<div class='avatar' id='avatarInitials'>${escapeHtml(initials)}</div>'" />`;
+      } else if (avatarEl.tagName === "IMG") {
+        avatarEl.outerHTML = `<div class="avatar" id="avatarInitials">${escapeHtml(initials)}</div>`;
+      } else {
+        avatarEl.textContent = initials;
+      }
+
       document.getElementById("profileName").textContent = state.name;
       document.getElementById("profileRole").textContent = state.role;
       document.getElementById("heroPill").textContent = state.pill;
@@ -1092,6 +1181,9 @@
       document.getElementById("contactDesc").textContent = state.contactDesc || "";
       document.getElementById("contactEmail").textContent = state.email;
       document.getElementById("contactChannel").textContent = state.channel;
+      document.getElementById("contactWhatsapp").textContent = state.whatsapp || "Disponível sob consulta";
+      document.getElementById("mailtoLink").href = `mailto:${encodeURIComponent(state.email || "")}`;
+      document.getElementById("channelLink").href = normalizeChannelUrl(state.channel);
       document.getElementById("footerCopy").textContent = `© ${new Date().getFullYear()} ${state.name} • Portfólio de Customer Success.`;
 
       if (state.stats?.[0]) {
@@ -1107,8 +1199,7 @@
         document.getElementById("stat3Label").textContent = state.stats[2].label;
       }
 
-      const pillarsGrid = document.getElementById("pillarsGrid");
-      pillarsGrid.innerHTML = state.pillars.map(p => `
+      document.getElementById("pillarsGrid").innerHTML = state.pillars.map(p => `
         <article class="card">
           <span class="pillar-step">${escapeHtml(p.step)}</span>
           <h3>${escapeHtml(p.title)}</h3>
@@ -1120,18 +1211,23 @@
         ? state.cases
         : state.cases.filter(c => c.category === activeFilter);
 
-      const casesGrid = document.getElementById("casesGrid");
-      casesGrid.innerHTML = filteredCases.length ? filteredCases.map(c => `
-        <article class="card">
-          <div class="case-meta">${escapeHtml(formatCategory(c.category))}</div>
-          <h3>${escapeHtml(c.title)}</h3>
-          <div class="case-impact">${escapeHtml(c.impact)}</div>
-          <p>${escapeHtml(c.desc)}</p>
-        </article>
-      `).join("") : `<p style="color: var(--muted);">Nenhum case nesta categoria ainda.</p>`;
+      document.getElementById("casesGrid").innerHTML = filteredCases.length ? filteredCases.map(c => {
+        const safePhoto = c.photo && c.photo.trim() ? escapeHtml(c.photo.trim()) : "";
+        const imgHtml = safePhoto
+          ? `<img class="case-img" src="${safePhoto}" alt="${escapeHtml(c.title)}" onerror="this.style.display='none'" />`
+          : "";
+        return `
+          <article class="card">
+            ${imgHtml}
+            <div class="case-meta">${escapeHtml(formatCategory(c.category))}</div>
+            <h3>${escapeHtml(c.title)}</h3>
+            <div class="case-impact">${escapeHtml(c.impact)}</div>
+            <p>${escapeHtml(c.desc)}</p>
+          </article>
+        `;
+      }).join("") : `<p style="color: var(--muted);">Nenhum case nesta categoria ainda.</p>`;
 
-      const testimonialsGrid = document.getElementById("testimonialsGrid");
-      testimonialsGrid.innerHTML = state.testimonials.map(t => `
+      document.getElementById("testimonialsGrid").innerHTML = state.testimonials.map(t => `
         <article class="card">
           <p class="quote">“${escapeHtml(t.quote)}”</p>
           <div class="author-name">${escapeHtml(t.author)}</div>
@@ -1157,7 +1253,15 @@
         .replace(/"/g, "&quot;");
     }
 
-    // Filters
+    document.getElementById("copyEmailBtn").addEventListener("click", () => {
+      const emailText = state.email || "";
+      navigator.clipboard?.writeText(emailText).then(() => {
+        alert("E-mail copiado: " + emailText);
+      }).catch(() => {
+        alert("E-mail: " + emailText);
+      });
+    });
+
     document.getElementById("caseFilters").addEventListener("click", (e) => {
       const btn = e.target.closest(".filter-btn");
       if (!btn) return;
@@ -1167,17 +1271,52 @@
       renderAll();
     });
 
-    // Contact form
-    document.getElementById("contactForm").addEventListener("submit", (e) => {
+    document.getElementById("publicCommentForm").addEventListener("submit", (e) => {
       e.preventDefault();
-      const name = document.getElementById("senderName").value.trim();
-      const feedback = document.getElementById("formFeedback");
-      feedback.style.display = "block";
-      feedback.textContent = `Obrigado, ${name}! Sua mensagem foi registrada no formulário. Para receber no e-mail automaticamente ao publicar, conecte este formulário a um serviço como Formspree.`;
+      const author = document.getElementById("commentAuthor").value.trim();
+      const role = document.getElementById("commentRole").value.trim();
+      const text = document.getElementById("commentText").value.trim();
+      if (!author || !text) return;
+      state.testimonials.push({
+        id: Date.now(),
+        author,
+        role: role || "Cliente",
+        quote: text
+      });
+      saveData(state);
+      const fb = document.getElementById("commentFeedback");
+      fb.style.display = "block";
+      fb.textContent = "Comentário publicado em Depoimentos! Você pode gerenciá-lo em 'Configurar site'.";
       e.target.reset();
     });
 
-    // Admin Modal
+    document.getElementById("contactForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("senderName").value.trim();
+      const email = document.getElementById("senderEmail").value.trim();
+      const topic = document.getElementById("senderTopic").value;
+      const message = document.getElementById("senderMessage").value.trim();
+      const feedback = document.getElementById("formFeedback");
+      feedback.style.display = "block";
+
+      if (state.formspreeUrl && state.formspreeUrl.trim().startsWith("https://")) {
+        try {
+          const resp = await fetch(state.formspreeUrl.trim(), {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Accept": "application/json" },
+            body: JSON.stringify({ name, email, topic, message })
+          });
+          if (resp.ok) {
+            feedback.textContent = `Obrigado, ${name}! Sua mensagem foi enviada para o e-mail configurado.`;
+            e.target.reset();
+            return;
+          }
+        } catch {}
+      }
+      feedback.textContent = `Obrigado, ${name}! Mensagem registrada na tela. Para receber diretamente no e-mail, adicione o endpoint do Formspree na aba 'Cores & Contato'.`;
+      e.target.reset();
+    });
+
     const modal = document.getElementById("adminModal");
     const loginBox = document.getElementById("loginBox");
     const adminPanel = document.getElementById("adminPanel");
@@ -1224,6 +1363,7 @@
     function fillProfileInputs() {
       document.getElementById("editName").value = state.name;
       document.getElementById("editRole").value = state.role;
+      document.getElementById("editAvatarUrl").value = state.avatarUrl || "";
       document.getElementById("editPill").value = state.pill || "";
       document.getElementById("editHeroTitle").value = state.heroTitle;
       document.getElementById("editHeroSub").value = state.heroSubtitle;
@@ -1249,6 +1389,8 @@
       document.getElementById("editContactDesc").value = state.contactDesc || "";
       document.getElementById("editEmail").value = state.email;
       document.getElementById("editChannel").value = state.channel;
+      document.getElementById("editWhatsapp").value = state.whatsapp || "";
+      document.getElementById("editFormspreeUrl").value = state.formspreeUrl || "";
       renderPillarsEditor();
     }
 
@@ -1278,6 +1420,7 @@
     document.getElementById("saveProfileBtn").addEventListener("click", () => {
       state.name = document.getElementById("editName").value.trim() || state.name;
       state.role = document.getElementById("editRole").value.trim() || state.role;
+      state.avatarUrl = document.getElementById("editAvatarUrl").value.trim();
       state.pill = document.getElementById("editPill").value.trim() || state.pill;
       state.heroTitle = document.getElementById("editHeroTitle").value.trim() || state.heroTitle;
       state.heroSubtitle = document.getElementById("editHeroSub").value.trim() || state.heroSubtitle;
@@ -1320,7 +1463,7 @@
       state.testTitle = document.getElementById("editTestTitle").value.trim() || state.testTitle;
       state.testDesc = document.getElementById("editTestDesc").value.trim() || state.testDesc;
       saveData(state);
-      alert("Cabeçalho de Relatos salvo!");
+      alert("Cabeçalho de Depoimentos salvo!");
     });
 
     document.getElementById("saveThemeContactBtn").addEventListener("click", () => {
@@ -1330,6 +1473,8 @@
       state.contactDesc = document.getElementById("editContactDesc").value.trim() || state.contactDesc;
       state.email = document.getElementById("editEmail").value.trim() || state.email;
       state.channel = document.getElementById("editChannel").value.trim() || state.channel;
+      state.whatsapp = document.getElementById("editWhatsapp").value.trim();
+      state.formspreeUrl = document.getElementById("editFormspreeUrl").value.trim();
       saveData(state);
       alert("Cores e contato salvos!");
     });
@@ -1338,7 +1483,7 @@
       const jsonStr = JSON.stringify(state, null, 2);
       document.getElementById("importJsonArea").value = jsonStr;
       navigator.clipboard?.writeText(jsonStr).catch(() => {});
-      alert("JSON gerado no campo abaixo (e copiado para a área de transferência, se permitido).");
+      alert("JSON gerado no campo abaixo.");
     });
 
     document.getElementById("importJsonBtn").addEventListener("click", () => {
@@ -1354,19 +1499,21 @@
     });
 
     function renderAdminLists() {
-      const casesList = document.getElementById("adminCasesList");
-      casesList.innerHTML = state.cases.map(c => `
+      document.getElementById("adminCasesList").innerHTML = state.cases.map(c => `
         <div class="list-item">
           <div class="list-item-top">
             <strong>${escapeHtml(c.title)}</strong>
             <button class="btn btn-outline btn-sm" onclick="deleteCase(${c.id})" type="button">Excluir</button>
           </div>
-          <div style="font-size: 0.85rem; color: var(--muted);">${escapeHtml(c.impact)}</div>
+          <div style="font-size: 0.85rem; color: var(--muted); margin-bottom: 8px;">${escapeHtml(c.impact)}</div>
+          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+            <input type="text" id="casePhotoInput_${c.id}" value="${escapeHtml(c.photo || '')}" placeholder="Caminho da foto (ex.: case-1.jpg)" style="flex:1; min-width:180px; padding:7px 10px; font-size:0.85rem;" />
+            <button class="btn btn-outline btn-sm" onclick="updateCasePhoto(${c.id})" type="button">Salvar foto</button>
+          </div>
         </div>
       `).join("");
 
-      const testList = document.getElementById("adminTestimonialsList");
-      testList.innerHTML = state.testimonials.map(t => `
+      document.getElementById("adminTestimonialsList").innerHTML = state.testimonials.map(t => `
         <div class="list-item">
           <div class="list-item-top">
             <strong>${escapeHtml(t.author)} — ${escapeHtml(t.role)}</strong>
@@ -1382,6 +1529,14 @@
       saveData(state);
     };
 
+    window.updateCasePhoto = function(id) {
+      const inp = document.getElementById(`casePhotoInput_${id}`);
+      if (!inp) return;
+      state.cases = state.cases.map(c => c.id === id ? { ...c, photo: inp.value.trim() } : c);
+      saveData(state);
+      alert("Foto do case atualizada!");
+    };
+
     window.deleteTestimonial = function(id) {
       state.testimonials = state.testimonials.filter(t => t.id !== id);
       saveData(state);
@@ -1391,6 +1546,7 @@
       const title = document.getElementById("newCaseTitle").value.trim();
       const category = document.getElementById("newCaseCat").value;
       const impact = document.getElementById("newCaseImpact").value.trim();
+      const photo = document.getElementById("newCasePhoto").value.trim();
       const desc = document.getElementById("newCaseDesc").value.trim();
       if (!title || !desc) {
         alert("Preencha pelo menos o título e o resumo do case.");
@@ -1401,11 +1557,13 @@
         title,
         category,
         impact: impact || "Resultado positivo comprovado",
+        photo,
         desc
       });
       saveData(state);
       document.getElementById("newCaseTitle").value = "";
       document.getElementById("newCaseImpact").value = "";
+      document.getElementById("newCasePhoto").value = "";
       document.getElementById("newCaseDesc").value = "";
     });
 
