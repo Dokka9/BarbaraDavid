@@ -375,6 +375,36 @@
       font-size: 0.9rem;
     }
 
+    .stars-display {
+      color: #f59e0b;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .star-picker {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .star-btn {
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      line-height: 1;
+      cursor: pointer;
+      color: #cbd5e1;
+      transition: transform 0.15s ease, color 0.15s ease;
+      padding: 2px;
+    }
+
+    .star-btn.active,
+    .star-btn:hover {
+      color: #f59e0b;
+      transform: scale(1.08);
+    }
+
     .quote {
       font-style: italic;
       color: var(--text);
@@ -446,7 +476,7 @@
     }
 
     textarea {
-      min-height: 110px;
+      min-height: 100px;
       resize: vertical;
     }
 
@@ -693,15 +723,23 @@
                 <input id="commentAuthor" type="text" required placeholder="Ex.: Carla Mendes" />
               </div>
               <div class="field">
-                <label for="commentRole">Cargo ou empresa (opcional)</label>
-                <input id="commentRole" type="text" placeholder="Ex.: Head de Operações • Empresa X" />
+                <label>Avaliação (1 a 5 estrelas)</label>
+                <div class="star-picker" id="commentStarPicker" role="radiogroup" aria-label="Avaliação de 1 a 5 estrelas">
+                  <button type="button" class="star-btn active" data-value="1" aria-label="1 estrela">★</button>
+                  <button type="button" class="star-btn active" data-value="2" aria-label="2 estrelas">★</button>
+                  <button type="button" class="star-btn active" data-value="3" aria-label="3 estrelas">★</button>
+                  <button type="button" class="star-btn active" data-value="4" aria-label="4 estrelas">★</button>
+                  <button type="button" class="star-btn active" data-value="5" aria-label="5 estrelas">★</button>
+                  <span id="commentStarLabel" style="margin-left: 8px; font-size: 0.86rem; color: var(--muted); font-weight: 600;">5/5</span>
+                </div>
+                <input id="commentRating" type="hidden" value="5" />
               </div>
             </div>
             <div class="field">
-              <label for="commentText">Seu depoimento ou comentário</label>
-              <textarea id="commentText" required placeholder="Escreva como foi a experiência ou deixe seu comentário..."></textarea>
+              <label for="commentText">Comentário</label>
+              <textarea id="commentText" required placeholder="Escreva aqui seu comentário e publique..."></textarea>
             </div>
-            <button type="submit" class="btn btn-primary btn-sm">Publicar comentário</button>
+            <button type="submit" class="btn btn-primary btn-sm">Publicar</button>
             <div class="feedback" id="commentFeedback"></div>
           </form>
         </div>
@@ -954,6 +992,16 @@
             <input id="newTestRole" type="text" placeholder="Ex.: Head de Operações • Empresa X" />
           </div>
           <div class="field">
+            <label for="newTestRating">Estrelas (1 a 5)</label>
+            <select id="newTestRating">
+              <option value="5">★★★★★ (5/5)</option>
+              <option value="4">★★★★☆ (4/5)</option>
+              <option value="3">★★★☆☆ (3/5)</option>
+              <option value="2">★★☆☆☆ (2/5)</option>
+              <option value="1">★☆☆☆☆ (1/5)</option>
+            </select>
+          </div>
+          <div class="field">
             <label for="newTestQuote">Depoimento ou comentário</label>
             <textarea id="newTestQuote" placeholder="Escreva o relato ou comentário..."></textarea>
           </div>
@@ -1096,18 +1144,21 @@
           id: 1,
           author: "Rafael Mendes",
           role: "Diretor de Operações • LogFlow",
+          rating: 5,
           quote: "Organizou nossa jornada de clientes do zero. Hoje sabemos exatamente onde cada conta está e quais ações evitam cancelamentos."
         },
         {
           id: 2,
           author: "Fernanda Lima",
           role: "Head de Produto • FinPulse",
+          rating: 5,
           quote: "Combina escuta atenta com organização prática. Transformou feedbacks soltos dos clientes em melhorias priorizadas."
         },
         {
           id: 3,
           author: "Bruno Tavares",
           role: "CEO • VendaMais SaaS",
+          rating: 5,
           quote: "O onboarding ficou muito mais leve para o cliente e previsível para o nosso time. A renovação deixou de ser surpresa."
         }
       ]
@@ -1143,8 +1194,30 @@
       return "https://" + raw.replace(/^\/+/, "");
     }
 
+    function renderStars(rating) {
+      const n = Math.max(1, Math.min(5, Number(rating) || 5));
+      return "★".repeat(n) + "☆".repeat(5 - n);
+    }
+
     let state = loadData();
     let activeFilter = "todos";
+    let selectedStar = 5;
+
+    function updateStarPicker(val) {
+      selectedStar = Math.max(1, Math.min(5, Number(val) || 5));
+      document.getElementById("commentRating").value = String(selectedStar);
+      document.getElementById("commentStarLabel").textContent = `${selectedStar}/5`;
+      document.querySelectorAll("#commentStarPicker .star-btn").forEach(btn => {
+        const starVal = Number(btn.dataset.value);
+        btn.classList.toggle("active", starVal <= selectedStar);
+      });
+    }
+
+    document.getElementById("commentStarPicker").addEventListener("click", (e) => {
+      const btn = e.target.closest(".star-btn");
+      if (!btn) return;
+      updateStarPicker(btn.dataset.value);
+    });
 
     function renderAll() {
       const initials = getInitials(state.name);
@@ -1153,7 +1226,7 @@
 
       const avatarEl = document.getElementById("avatarInitials");
       if (state.avatarUrl && state.avatarUrl.trim()) {
-        avatarEl.outerHTML = `<img id="avatarInitials" class="avatar-img" src="${escapeHtml(state.avatarUrl.trim())}" alt="${escapeHtml(state.name)}" onerror="this.outerHTML='<div class='avatar' id='avatarInitials'>${escapeHtml(initials)}</div>'" />`;
+        avatarEl.outerHTML = `<img id="avatarInitials" class="avatar-img" src="${escapeHtml(state.avatarUrl.trim())}" alt="${escapeHtml(state.name)}" onerror="this.outerHTML='<div class=\'avatar\' id=\'avatarInitials\'>${escapeHtml(initials)}</div>'" />`;
       } else if (avatarEl.tagName === "IMG") {
         avatarEl.outerHTML = `<div class="avatar" id="avatarInitials">${escapeHtml(initials)}</div>`;
       } else {
@@ -1229,9 +1302,10 @@
 
       document.getElementById("testimonialsGrid").innerHTML = state.testimonials.map(t => `
         <article class="card">
+          <div class="stars-display" aria-label="${Number(t.rating) || 5} de 5 estrelas">${renderStars(t.rating)}</div>
           <p class="quote">“${escapeHtml(t.quote)}”</p>
           <div class="author-name">${escapeHtml(t.author)}</div>
-          <div class="author-role">${escapeHtml(t.role)}</div>
+          <div class="author-role">${escapeHtml(t.role || "Cliente")}</div>
         </article>
       `).join("");
 
@@ -1274,20 +1348,22 @@
     document.getElementById("publicCommentForm").addEventListener("submit", (e) => {
       e.preventDefault();
       const author = document.getElementById("commentAuthor").value.trim();
-      const role = document.getElementById("commentRole").value.trim();
+      const rating = Number(document.getElementById("commentRating").value) || 5;
       const text = document.getElementById("commentText").value.trim();
       if (!author || !text) return;
       state.testimonials.push({
         id: Date.now(),
         author,
-        role: role || "Cliente",
+        role: "Comentário de cliente",
+        rating,
         quote: text
       });
       saveData(state);
       const fb = document.getElementById("commentFeedback");
       fb.style.display = "block";
-      fb.textContent = "Comentário publicado em Depoimentos! Você pode gerenciá-lo em 'Configurar site'.";
+      fb.textContent = "Comentário publicado!";
       e.target.reset();
+      updateStarPicker(5);
     });
 
     document.getElementById("contactForm").addEventListener("submit", async (e) => {
@@ -1516,7 +1592,7 @@
       document.getElementById("adminTestimonialsList").innerHTML = state.testimonials.map(t => `
         <div class="list-item">
           <div class="list-item-top">
-            <strong>${escapeHtml(t.author)} — ${escapeHtml(t.role)}</strong>
+            <strong>${escapeHtml(t.author)} — ${renderStars(t.rating)}</strong>
             <button class="btn btn-outline btn-sm" onclick="deleteTestimonial(${t.id})" type="button">Excluir</button>
           </div>
           <div style="font-size: 0.85rem; color: var(--muted);">“${escapeHtml(t.quote)}”</div>
@@ -1570,6 +1646,7 @@
     document.getElementById("addTestBtn").addEventListener("click", () => {
       const author = document.getElementById("newTestAuthor").value.trim();
       const role = document.getElementById("newTestRole").value.trim();
+      const rating = Number(document.getElementById("newTestRating").value) || 5;
       const quote = document.getElementById("newTestQuote").value.trim();
       if (!author || !quote) {
         alert("Preencha o nome e o depoimento.");
@@ -1579,11 +1656,13 @@
         id: Date.now(),
         author,
         role: role || "Cliente",
+        rating,
         quote
       });
       saveData(state);
       document.getElementById("newTestAuthor").value = "";
       document.getElementById("newTestRole").value = "";
+      document.getElementById("newTestRating").value = "5";
       document.getElementById("newTestQuote").value = "";
     });
 
@@ -1607,6 +1686,7 @@
       }
     });
 
+    updateStarPicker(5);
     renderAll();
   </script>
 </body>
